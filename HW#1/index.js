@@ -79,20 +79,20 @@ console.log(newNumObj.add()); //и юзать как свой
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////вариант 2.5 extend
 //! класс только с методами (может быть библтотека)
 class MyCalcuator3 {
-  static add() {
+ add() {
     return this._x + this._y;
   }
-  static subtract() {
+subtract() {
     return this._x - this._y;
   }
-  static divide() {
+ divide() {
     if (this._x === 0 || this._y === 0) return 0;
     return this._x / this._y;
   }
-  static multiply() {
+ multiply() {
     return this._x * this._y;
   }
-  static percent() {
+   percent() {
     if (this._x === 0 || this._y === 0) return "нельзя рассчитать";
     if (this._x === this._y) return "цифры равны";
     let result = 0;
