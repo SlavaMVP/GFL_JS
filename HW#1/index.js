@@ -76,6 +76,43 @@ console.log(MyCalcuator2.add.apply(newNumObj));
 //можно поизвращатся еще так;)
 newNumObj.add = MyCalcuator2.subtract.bind(newNumObj); //копировать метод в свой обьект (!эксперемента ради)
 console.log(newNumObj.add()); //и юзать как свой
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////вариант 2.5 extend
+//! класс только с методами (может быть библтотека)
+class MyCalcuator3 {
+  static add() {
+    return this._x + this._y;
+  }
+  static subtract() {
+    return this._x - this._y;
+  }
+  static divide() {
+    if (this._x === 0 || this._y === 0) return 0;
+    return this._x / this._y;
+  }
+  static multiply() {
+    return this._x * this._y;
+  }
+  static percent() {
+    if (this._x === 0 || this._y === 0) return "нельзя рассчитать";
+    if (this._x === this._y) return "цифры равны";
+    let result = 0;
+    this._x < this._y
+      ? (result = `Меньше на:${100 - Math.round((this._x / this._y) * 100)}%`)
+      : (result = `Больше на:${100 - Math.round((this._y / this._x) * 100)}%`);
+    return result;
+  }
+}
+
+class NumObj2 extends MyCalcuator3 {
+  constructor(a = 0, b = 0) {
+    super();
+    this._x = a;
+    this._y = b;
+  }
+}
+
+let newOp = new NumObj2(4, 5);
+console.log(newOp.add());
 
 //? /////////////////////////////////////////////////////////////////////// вариант #3  с приминением функций конструкторов
 function MathObj(a, b) {
@@ -94,3 +131,5 @@ MathObj.prototype.add = function () {
 let calculation1 = new MathObj(3, 3);
 console.log(calculation1.showArguments());
 console.log(calculation1.add());
+
+
