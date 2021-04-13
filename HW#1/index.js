@@ -32,7 +32,7 @@ class MyCalcuator {
 
 let obj = new MyCalcuator(3, 3); //если ничего не зададим то 0
 
-console.log(obj.percent);
+console.log(obj.percent());
 //? ///////////////////////////////////////////////////////////////////    вариант #2 c bind
 //для нового расчета создаем обект
 class NumObj {
