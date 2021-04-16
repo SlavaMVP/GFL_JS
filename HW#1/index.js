@@ -6,6 +6,12 @@ class MyCalcuator {
     this._x = a;
     this._y = b;
   }
+  /////////////////////////////////NOW we Can set x and y anytime
+  get x(){return this._x}
+  set x(val){this._x = val}
+  get y(){return this._y}
+  set y(val){this._y = val}
+  
   add() {
     return this._x + this._y;
   }
@@ -30,6 +36,8 @@ class MyCalcuator {
   }
 }
 let obj = new MyCalcuator(3, 3); //если ничего не зададим то 0
+obj.x = 22;
+obj.y = 11;
 console.log(obj.percent());
 //? ///////////////////////////////////////////////////////////////////    вариант #2 c bind
 //для нового расчета создаем обект
@@ -38,6 +46,10 @@ class NumObj {
     this._x = a;
     this._y = b;
   }
+   get x(){return this._x}
+  set x(val){this._x = val}
+  get y(){return this._y}
+  set y(val){this._y = val}
 }
 //! класс только с методами (может быть библтотека)
 class MyCalcuator2 {
@@ -64,6 +76,7 @@ class MyCalcuator2 {
     return result;
   }
 }
+
 let newNumObj = new NumObj(4, 8);
 //этот способ хорош тем что все методы в одном классе (и не идут в прототипы обьекта)
 console.log(MyCalcuator2.add.apply(newNumObj));
@@ -107,6 +120,10 @@ class NumObj2 extends MyCalcuator3 {
     this._x = a;
     this._y = b;
   }
+   get x(){return this._x}
+  set x(val){this._x = val}
+  get y(){return this._y}
+  set y(val){this._y = val}
 }
 let newOp = new NumObj2(4, 5);
 console.log(newOp.add());
