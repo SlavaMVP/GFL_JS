@@ -1,0 +1,109 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  padding: 0;
+  margin: 0;
+  font-family: Karantina, serif;
+  font-size: 20px;
+}
+
+body {
+  background-color: gray;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-template-rows: min-content;
+  grid-gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.container h1 {
+  color: antiquewhite;
+  text-align: center;
+  align-self: center;
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.users-list,
+.users-list ul {
+  list-style: none;
+}
+
+.users-list {
+  padding: 0;
+  grid-column: 2/3;
+  grid-row: 2/3;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(min-content, max-content));
+  grid-gap: 10px;
+}
+
+.users-list ul {
+  border: 1px solid #fff;
+}
+
+.users-list ul {
+  border: 1px solid #fff;
+}
+li.users-list__item {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.message {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  border: 1px solid #000;
+  border-radius: 2px;
+}
+
+.message--error {
+  display: none;
+  grid-column: 2/3;
+  grid-row: 4/5;
+  color: red;
+}
+
+.todo__actions {
+  grid-column: 2/3;
+  grid-row: 3/4;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  padding: 1rem 2rem;
+  border: 1px solid #000;
+  color: white;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn--blue {
+  background-color: rgb(16, 97, 124);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.btn--yellow {
+  background-color: rgb(36, 214, 66);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.btn:disabled {
+  background-color: gray;
+  cursor: wait;
+}
