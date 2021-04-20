@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Json | Shop</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./src/css/style.css">
+    <script src="./src/js/index.js" defer></script>
+</head>
+
+<body>
+    <h1 class="visually-hidden">Shop parody</h1>
+
+    <div class="app__container" id="app">
+        <div class='app__message js-message'>55</div>
+        <section class="products-section">
+            <h2  class="product-section__header">Product List</h2>
+            <div class="product-items__wrapper js-products-list">
+
+            <!--
+                <div class="product-item">
+                    <h4 class="product__header">Name of product</h4>
+                    <p class="product__description">short description</p>
+                    <div class="product__operation">
+                        <p class="product__price">&dollar;12.99</p>
+                        <button class="btn product__add-btn">add</button>
+                    </div>
+                </div>
+              
+                <div class="product-item">
+                    <h4 class="product__header">Name of product</h4>
+                    <p class="product__description">short description</p>
+                    <div class="product__operation">
+                        <p class="product__price">&dollar;12.99</p>
+                        <button class="btn product__add-btn">add</button>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <h4 class="product__header">Name of product</h4>
+                    <p class="product__description">short description</p>
+                    <div class="product__operation">
+                        <p class="product__price">&dollar;12.99</p>
+                        <button class="btn product__add-btn">add</button>
+                    </div>
+                </div>
+            -->
+            </div>
+        </section>
+
+        <section class="cart-section">
+            <h2 class="cart-section__header js-cart-header">Cart (0)</h2>
+            <div class="card-items__wrapper js-cart-items">
+               <!--
+                <div class="cart-items__item">
+                    <h4 class="item__header">Name of product</h4>
+                    <div class="item__actions" title="cart item operations">
+                        <button class="btn item__sub-btn" title='reduce amount'>-</button>
+                        <button class="btn item__add-btn" title='increase amount'>+</button>
+                        <p class="item__quantity">60</p>
+                    </div>
+                    <p class="item__total-price">&dollar;779.40</>
+                </div>
+            
+                <div class="cart-items__item">
+                    <h4 class="item__header">Name of product</h4>
+                    <div class="item__actions" title="cart item operations">
+                        <button class="btn item__sub-btn" title='reduce amount'>-</button>
+                        <button class="btn item__add-btn" title='increase amount'>+</button>
+                        <p class="item__quantity">60</p>
+                    </div>
+                    <p class="item__total-price">&dollar;779.40</>
+                </div>
+             
+                <div class="cart-items__item">
+                    <h4 class="item__header">Name of product</h4>
+                    <div class="item__actions" title="cart item operations">
+                        <button class="btn item__sub-btn" title='reduce amount'>-</button>
+                        <button class="btn item__add-btn" title='increase amount'>+</button>
+                        <p class="item__quantity">60</p>
+                    </div>
+                    <p class="item__total-price">&dollar;779.40</>
+                </div>
+            -->
+            </div>
+
+            <p class="cart__message js-cart-message">Your cart is empty</p>
+
+            <div class="products__summary js-summary hide">
+                <strong class="summary__text">Total:</strong>
+                <p class="summary__price js-total">&dollar;0</p>
+            </div>
+            
+    </div>
+
+    </section>
+
+    </div>
+   <!--Product list item template-->
+    <template id="product-item-template">
+        <div class="product-item">
+            <h4 class="product__header">Name of product</h4>
+            <p class="product__description">Short description wasn't provided by Teacher</p>
+            <div class="product__operation">
+                <p class="product__price">&dollar;12.99</p>
+                <button class="btn product__add-btn js-add-btn">add</button>
+            </div>
+        </div>
+    </template>
+
+     <!--Card item template-->
+    <template id="cart-item-template"> 
+        <div class="cart__item">
+            <h4 class="item__header">Name of product</h4>
+            <div class="item__actions js-cart-btns" title="cart item operations">
+                <button class="btn item__sub-btn" title='reduce amount' data-action="subtract">-</button>
+                <button class="btn item__add-btn" title='increase amount' data-action="add">+</button>
+                <p class="item__quantity">60</p>
+            </div>
+            <p class="item__total-price">&dollar;779.40</>
+        </div>
+    </template>
+</body>
+
+</html>
