@@ -35,10 +35,6 @@ const App = (props) => {
     return () => {};
   }, []);
 
-  useEffect(() => {
-    console.log("changed");
-  }, [filteredList]);
-
   const filterHandler = () => {
     const filterText = filterInputRef.current.value.trim();
     let filteredArr = [];

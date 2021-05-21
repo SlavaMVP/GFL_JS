@@ -10,6 +10,11 @@ export const makeActive = (id) => ({
   payload: id,
 });
 
+export const makeDone = (id) => ({
+  type: "MAKE_DONE",
+  payload: id,
+});
+
 export const startLoad = () => ({
   type: "FETCH_TODOS_START",
 });

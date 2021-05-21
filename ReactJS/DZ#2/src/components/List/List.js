@@ -20,8 +20,7 @@ function List(props) {
     </>
   );
 
-  const { todoList, type, todos, deleteTodo, makeActive } = props;
-  //console.log(todos);
+  const { todoList, type, todos, deleteTodo, makeActive, makeDone } = props;
   const makeActiveHandler = (id) => {
     makeActive(id);
   };
@@ -29,10 +28,23 @@ function List(props) {
     deleteTodo(id);
   };
 
+  const makeDoneHandler = (id) => {
+    makeDone(id);
+  };
+
   const renderInProgressItem = ({ name, id, isActive }) => {
     let nextTodoId = todos.in_progress[1]?.id;
+    let numberOfTodos = todos.in_progress.length;
     let buttons = null;
-    if (isActive) {
+    if (isActive && numberOfTodos === 1) {
+      buttons = (
+        <Button
+          name="Complete"
+          type="start"
+          action={makeDoneHandler.bind(null, id)}
+        />
+      );
+    } else if (isActive) {
       buttons = null;
     } else if (id !== null && id === nextTodoId) {
       buttons = (
@@ -67,12 +79,17 @@ function List(props) {
   };
 
   if (type === "active") {
+    if (todoList.length === 0) {
+      return (listType = <p>There is no active todos.Add one!</p>);
+    }
     listType = todoList.map((item) => {
       const { id } = item;
-
       return <ListItem key={id} item={item} render={renderInProgressItem} />;
     });
   } else {
+    if (todos.done.length === 0) {
+      return (listType = <p>You did nothing at this point!!</p>);
+    }
     listType = todos.done.map((item) => {
       const { id } = item;
 
@@ -89,11 +106,15 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  const { deleteTodo, makeActive } = bindActionCreators(actions, dispatch);
+  const { deleteTodo, makeActive, makeDone } = bindActionCreators(
+    actions,
+    dispatch
+  );
 
   return {
     deleteTodo: (id) => deleteTodo(id),
     makeActive: (id) => makeActive(id),
+    makeDone: (id) => makeDone(id),
   };
 };
 
