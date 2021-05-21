@@ -1,0 +1,15 @@
+.list-group-item {
+    background-color: #ffe5c270;
+}
+
+.list-group-item .btn{
+    position: absolute;
+    right: 3px;
+    top: 3px;
+}
+
+.list-group-item .btn.btn-primary {
+    position: absolute;
+    right: 55px;
+    top: 3px;
+}

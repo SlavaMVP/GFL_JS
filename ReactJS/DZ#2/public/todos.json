@@ -1,0 +1,29 @@
+{
+  "in_progress": [
+    {
+      "id": 3,
+      "name": "Dive deeper in React",
+      "isActive": true,
+      "startime": "2021-05-18T17:00:00.000Z"
+    },
+    { "id": 4, "name": "Make awesome React based WebSite", "isActive": false },
+    { "id": 5, "name": "Pass interview", "isActive": false },
+    { "id": 6, "name": "Find best ever JOB", "isActive": false }
+  ],
+  "done": [
+    {
+      "id": 1,
+      "name": "Decide Learning React",
+      "isActive": false,
+      "startTime": "2021-05-17T10:00:00.000Z",
+      "finishedTime": "2021-05-17T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Start Learning React",
+      "isActive": false,
+      "startime": "2021-05-17T17:00:00.000Z",
+      "finishedTime": "2021-05-17T19:30:00.000Z"
+    }
+  ]
+}
