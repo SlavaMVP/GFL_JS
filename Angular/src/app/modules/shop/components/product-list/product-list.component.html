@@ -1,0 +1,11 @@
+<div>
+    <div *ngFor="let product of products">
+        <h3>{{product.name}}</h3>
+       <!-- <p>{{product.id}}</p>-->
+        <p>Price: {{product.price}}</p>
+        <p>Awailable: {{product.available}}</p>
+        <div>
+            <button (click)="addToCart(product.id)" [disabled]="product.available === 0 || isProductAvailable(product.id)">Add to cart</button>
+        </div>
+    </div>
+</div>

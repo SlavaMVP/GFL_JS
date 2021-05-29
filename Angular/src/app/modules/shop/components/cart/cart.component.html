@@ -1,0 +1,20 @@
+
+<div>
+    <p *ngIf="cartItems.length === 0">There is no products in cart yet!!</p>
+
+    <div *ngFor="let cartItem of cartItems">
+        <h3>{{cartItem.name}}</h3>
+        <p>You have in Cart: {{cartItem.count}}</p>
+        <p>price: {{ (cartItem.count * cartItem.price).toFixed(2) }}</p>
+
+        <div>
+            <button (click)="addProduct(cartItem.id)" [disabled]="cartItem.count === cartItem.available">Add</button>
+            <button  (click)="subProduct(cartItem.id)">Subtract</button>
+        </div>
+    </div>
+    <div *ngIf="cartItems.length !== 0">
+        <p>total price: {{ totalPrice }}</p>
+
+        <button (click)="checkout()" >Checkout!</button>
+    </div>
+</div>
