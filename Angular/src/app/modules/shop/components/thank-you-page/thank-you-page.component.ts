@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router"
 
 @Component({
   selector: 'app-thank-you-page',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThankYouPageComponent implements OnInit {
 
-  constructor() { }
+  clientName: string
+
+  constructor( private router : Router) { }
 
   ngOnInit(): void {
+    this.clientName = this.router.parseUrl(this.router.url).queryParams.clientName;
   }
 
 }

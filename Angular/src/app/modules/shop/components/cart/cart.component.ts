@@ -26,11 +26,6 @@ export class CartComponent implements OnInit , OnDestroy {
    // console.log('cart destroy');
   }
 
-  checkout(){
-    //cart items goes to orders in DB
-    this.cartService.clearCart();
-    this.router.navigate(['shop/thnx'])
-  }
 
   addProduct(id){
     const [selectedProduct] =  this._getCartItem(id);
@@ -59,6 +54,10 @@ export class CartComponent implements OnInit , OnDestroy {
    totalPrice += cartItem.count * cartItem.price
     },0)
     this._totalPrice =  +totalPrice.toFixed(2);
+  }
+
+  createOrder(){
+    this.router.navigate(['shop/order'], {queryParams: {total: `${this.totalPrice}`}})
   }
 
 

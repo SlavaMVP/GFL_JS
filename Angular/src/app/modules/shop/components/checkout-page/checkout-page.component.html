@@ -1,0 +1,30 @@
+<div>
+<fieldset>
+    <legend>Your Order</legend>
+    <ul>
+        <li *ngFor="let item of  cartItems">Name: {{item.name}} - count: {{item.count}}</li>
+    </ul>
+    <p>total price: {{ orderPrice }}$</p>
+</fieldset>
+
+
+<form [formGroup]="orderForm">
+    <fieldset>
+        <legend>Personal information</legend>
+    
+   *Name: <input type="text" formControlName="username" placeholder="Jack" name='username'> 
+   <span *ngIf="orderForm.controls.username.status === 'INVALID'">Should not be emty!!!</span><br/>
+
+   Surname: <input type="text" formControlName="surname" placeholder="Dow"><br/>
+
+   *Email: <input type="email" formControlName="email" placeholder="JackD@mail.com">
+   <span *ngIf="orderForm.controls.email.status === 'INVALID'">Should be valid email!!!</span><br/>
+
+   *Phone: <span>+380</span><input type="phone" formControlName="phone" placeholder="9932144433"> 
+   <span *ngIf="orderForm.controls.phone.status === 'INVALID'">Should be valid number!!!</span><br/>
+
+   <button (click)="makeOrder($event)" [disabled]="orderForm.status === 'INVALID'">Order!</button>
+</fieldset>
+</form>
+
+</div>
