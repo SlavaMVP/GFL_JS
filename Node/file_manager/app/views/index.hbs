@@ -1,0 +1,106 @@
+{{> header title='FS manager'}}
+<div class="app__wrapper" id="app">
+    <div class="app__toolbar">
+        <form action="get" class="app__search search">
+            <input type="text" name="search" class="search__input" id="search-input" placeholder="Search..">
+            <button type="submit" class="search__btn">&#128269;</button>
+        </form>
+        <a class="btn btn--logout" href="/user/logout">Logout</a>
+    </div>
+
+    <aside class="app__explorer app__explorer--open">
+        <img src="/img/logo.svg" alt="logo">
+        <div class="add-menu">
+            <button class="btn btn--add  js-add">Add</button>
+
+            <div class="add-menu__list add-list hide js-show-menu">
+                <button class="add-list__btn btn--folder" data-action='add-folder'>Add folder</button>
+                <button class="add-list__btn btn--file" data-action='add-file'>Add file</button>
+                <button class="add-list__btn btn--upload" data-action='upload-file'>Upload file</button>
+            </div>
+        </div>
+
+        <div class="fs-explorer js-fs">
+            <ul>
+                <li class="fs__folder" data-folder="root" data-path="root">My files
+                    {{{ folders }}}
+                </li>
+            </ul>
+
+            <div class="fs-explorer__space">
+                <progress class="progress_bar" max="100" value={{spaceUsed}}>
+               
+
+                </progress>
+                <p>Used {{folderSizeMB}}MB from 20 MB</p>
+           
+             </div>
+        
+</div>
+
+</aside>
+
+<!--//////////////////////////////////////////////////////////////////////////////////////MAIN-->
+<main class="app__main">
+   
+    {{> main data=files}}
+</main>
+
+
+<aside class="app__details js-details">
+
+    <div class="operations_wrapper">
+        <button class="btn details__btn details__btn--active js-info">information</button>
+        <button class="btn details__btn js-download">download</button>
+    </div>
+    <div class="file__info">
+       <!-- <img src="/img/download.jpg" class="file__preview js-preview" alt="preview">-->
+        <!--if information-->
+        <table class="file__details js-info-table">
+        
+        </table>
+    </div>
+</aside>
+
+<div>
+
+    <div class="fs-manager__forms hide">
+
+        <div class="forms__overlay hide "></div>
+
+        <form class="add-folder-form hide" method="post" action='/fs-manager/add-folder'>
+            <label for="folder-input">Add new folder to current folder</label>
+            <input type="hidden" name="currentFolder" id="curent-folder">
+            <input type="text" name='folder' id="folder-input" placeholder="Folder name">
+            <div class="form-actions">
+                <button type="reset" class="btn cancel--btn">Cancel</button>
+                <button type="submit" class="btn save--btn">Save</button>
+            </div>
+
+        </form>
+
+        <form class="add-file-form hide" method="post" action='/fs-manager/add-folder'>
+            <label for="file-input">Add new file to current folder</label>
+            <input type="hidden" name="currentFolder" id="curent-folder">
+            <input type="text" name='file' id="file-input" placeholder="File name">
+            <div class="form-actions">
+                <button type="reset" class="btn cancel--btn">Cancel</button>
+                <button type="submit" class="btn save--btn" disabled>Save</button>
+            </div>
+        </form>
+
+        <form action='/fs-manager/upload-file' enctype="multipart/form-data" method="post"
+            class="upload-file-form hide">
+            <label for="folder-input">Upload File to current folder</label>
+            <input type="hidden" name="currentFolder" id="curent-folder">
+            <input type="file" name='upload' id="upload-input">
+            <div class="form-actions">
+                <button type="reset" class="btn cancel--btn">Cancel</button>
+                <button type="submit" class="btn save--btn">Upload</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{{> footer }}

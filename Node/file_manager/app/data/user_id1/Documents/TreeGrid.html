@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>How to Start with dhtmlxGrid</title>
+		<script type="text/javascript" src="../../codebase/grid.js"></script>
+		<link rel="stylesheet" href="../../codebase/grid.css" />
+	</head>
+
+	<body>
+		<div id="grid_container"></div>
+
+		<script>
+			var grid = new dhx.Grid("grid", {
+				type: "tree",
+				columns: [
+					{ width: 260, id: "name", header: [{ text: "Name" }] },
+					{ width: 260, id: "native", type: "string", header: [{ text: "Native name" }] },
+					{ width: 200, id: "capital", type: "string", header: [{ text: "Capital" }] },
+					{ width: 200, id: "currency", type: "string", header: [{ text: "Currency" }] },
+				],
+				data: treeDataset,
+			});
+		</script>
+	</body>
+</html>

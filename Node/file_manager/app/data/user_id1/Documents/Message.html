@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>How to Start with dhtmlxMessage</title>
+		<script type="text/javascript" src="../../codebase/message.js"></script>
+		<link rel="stylesheet" href="../../codebase/message.css" />
+	</head>
+
+	<body>
+		<!--optional-->
+		<div id="message_container"></div>
+
+		<script>
+			// creating dhtmlxMessage
+			dhx.message({
+				node: "message_container",
+				text: "This is an error message",
+				css: "dhx_message--error",
+				icon: "dxi-close",
+			});
+		</script>
+	</body>
+</html>

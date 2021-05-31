@@ -1,0 +1,28 @@
+{{> header title='Create user'}}
+
+<div class="user-authentification">
+<h1>Register new account</h1>
+
+ {{#if erroMessage}} <p>{{erroMessage}}</p> {{/if}}
+<form method="POST" action="/user/register"  class="user__form">
+  <div class='form-group'>
+    <label for='username'>Username</label>
+    <input type='text' name="username" class='form-control' id='username' placeholder='Name' />
+  </div>
+  <div class='form-group'>
+    <label for='email'>Email</label>
+    <input type='text' name="email" class='form-control' id='email' placeholder='Email' />
+  </div>
+  <div class='form-group'>
+    <label for='password'>Password</label>
+    <input type='password' name="password" class='form-control' id='password' placeholder='Password' />
+  </div>
+
+  <button type='submit' class='btn btn-auth'>Register</button>
+</form>
+<br>
+<p>Already have an account? <a href="/user/login">Login</a></p>
+
+</div>
+
+{{> footer}}

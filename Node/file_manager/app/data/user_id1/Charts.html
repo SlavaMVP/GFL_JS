@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>How to Start with dhtmlxChart</title>
+		<script type="text/javascript" src="../../codebase/chart.js"></script>
+		<link rel="stylesheet" href="../../codebase/chart.css" />
+	</head>
+	<body>
+		<div id="chart_container"></div>
+		<script>
+			// creating dhtmlxChart
+			var chart = new dhx.Chart("chart_container", {
+				type: "line",
+				scales: {
+					bottom: {
+						text: "month",
+					},
+					left: {
+						maxTicks: 10,
+					},
+				},
+				series: [
+					{
+						id: "finance",
+						value: "Finance",
+						color: "#5E83BA",
+					},
+				],
+			});
+			chart.data.parse(Data);
+		</script>
+	</body>
+</html>

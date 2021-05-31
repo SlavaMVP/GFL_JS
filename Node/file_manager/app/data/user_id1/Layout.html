@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>How to Start with dhtmlxLayout</title>
+		<script type="text/javascript" src="../../codebase/layout.js"></script>
+		<link rel="stylesheet" href="../../codebase/layout.css" />
+	</head>
+	<body>
+		<div id="layout_container"></div>
+		<script>
+			// creating dhtmlxLayout
+			var layout = new dhx.Layout("layout_container", {
+				cols: [
+					{ header: "Column 1" },
+					{ header: "Column 2", cols: [{ header: "Left cols" }, { header: "Center cols" }] },
+				],
+			});
+		</script>
+	</body>
+</html>

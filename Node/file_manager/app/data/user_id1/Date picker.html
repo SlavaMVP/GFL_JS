@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="../../codebase/calendar.js"></script>
+		<link rel="stylesheet" href="../../codebase/calendar.css" />
+	</head>
+
+	<body>
+		<script>
+			var dateInput = document.getElementById("date-input");
+			dateInput.addEventListener("click", function () {
+				popup.show(dateInput);
+			});
+			var calendar = new dhx.Calendar(null, { dateFormat: "%d/%m/%y" });
+			var popup = new dhx.Popup();
+			popup.attach(calendar);
+			calendar.events.on("change", function () {
+				dateInput.value = calendar.getValue();
+				popup.hide();
+			});
+		</script>
+	</body>
+</html>
