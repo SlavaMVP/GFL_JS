@@ -18,7 +18,7 @@
   const fileInformationBtnEl = fileInfoEl.querySelector(".js-info");
 
   let activeFolder = "root";
-  let activeFolderPath;
+  let activeFolderPath = "root";
 
   //initial folder files preview
   document.addEventListener("onContentLoaded", manageSelectedFolder("root"));
@@ -54,9 +54,7 @@
       closeOperation();
     });
     el.querySelector(".save--btn").addEventListener("click", (e) => {
-      //e.preventDefault();
       closeOperation();
-      console.log("save");
     });
   });
 
@@ -72,14 +70,13 @@
     activeFolder = chosenFolder;
     activeFolderPath = chosenFolderPath;
 
-    //console.log(evt.target.dataset);
     manageSelectedFolder(activeFolder, activeFolderPath);
   });
 
   function manageSelectedFolder(folder, queryParams = null) {
     fetch(
       `http://localhost:3055/fs-manager/files/${folder}?folderPath=${queryParams}`
-    ) //files/${activeFolder}
+    )
       .then((response) => {
         return response.text();
       })
@@ -106,7 +103,8 @@
   }
 
   function filesSelectHandler(filesEl, folderEl) {
-    [...filesEl].forEach((element) => {
+    [...folderEl].forEach((element) => {
+      console.log("hello");
       element.addEventListener("click", (evt) => evt.preventDefault());
     });
 
@@ -167,7 +165,6 @@
 </tr>`;
     //TODO /////////////////////////////////////////////////////////
 
-    // filePreviewEl.insertAdjacentHTML("afterbegin", template);
     fileInfoDetailsEl.insertAdjacentHTML("afterbegin", template);
   }
 
@@ -175,8 +172,8 @@
     fileDownloadBtnEl.classList.add("details__btn--active");
     fileInformationBtnEl.classList.remove("details__btn--active");
 
-    console.log("download");
-    fetch(`http://localhost:3055/fs-manager/download`) //files/${activeFolder} //?filepath=22
+    console.log("download...");
+    fetch(`http://localhost:3055/fs-manager/download`)
       .then((response) => {
         return response.blob();
       })
@@ -217,9 +214,8 @@
 
   function setCurFolder() {
     [...activeFolderInputs].forEach((el) => {
-      el.value = activeFolder;
+      el.value = activeFolderPath;
     });
-    //console.log(activeFolder);
   }
 
   function choseForm(form) {

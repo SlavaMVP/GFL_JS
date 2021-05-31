@@ -82,7 +82,7 @@ exports.addFolder = (req, res, next) => {
 
   const folderName = req.body.folder;
 
-  if (currentFolder === "root") {
+  if (currentFolder === "root" || currentFolder === undefined) {
     savePath = `${USER_F_PATH}/${folderName}`;
   } else {
     savePath = `${USER_F_PATH}/${currentFolder}/${folderName}`;
@@ -149,7 +149,7 @@ exports.uploadFile = (req, res, next) => {
 };
 
 exports.showFilesOfFolder = (req, res, next) => {
-  const { folder } = req.params;
+  //const { folder } = req.params;
   const USER_F_NAME = res.userFolder;
   const folderPath = req.query.folderPath;
 
@@ -181,7 +181,7 @@ exports.showFilesOfFolder = (req, res, next) => {
     </thead>`;
     Object.keys(obj).forEach((key) => {
       if (obj[key].basename !== key) {
-        a += ` <tr data-file-path="${obj[key].dir}" class="file-list__row">
+        a += ` <tr data-file-path="${obj[key].dir}" class="file-list__row"> 
         <td class="name"><span class="file-img--${
           obj[key].basename
         }"></span> ${key}</td>
@@ -195,8 +195,9 @@ exports.showFilesOfFolder = (req, res, next) => {
         ).toLocaleDateString()}</td>
     </tr>`;
       } else {
-        a += ` <tr data-file-path="${obj[key].dir}" class="file-list__row">
-        <td class="name"><span class="file-img--folder"></span><a href="files/${key}" class="js-folder">${key}</a></td>
+        a += ` <tr data-path="${obj[key].dir}" class="file-list__row">
+       
+        <td class="name"><span class="file-img--folder"></span> <a href="http://localhost:3055/fs-manager/files/${key}?folderPath=${folderPath}/${key}" class="js-folder">${key}  </a></td>
         <td class="type">folder</td>
         <td class="size"></td>
         <td class="modified">${new Date(
@@ -205,6 +206,7 @@ exports.showFilesOfFolder = (req, res, next) => {
         <td class="created">${new Date(
           obj[key].birthtime
         ).toLocaleDateString()}</td>
+      
     </tr>`;
       }
     });
