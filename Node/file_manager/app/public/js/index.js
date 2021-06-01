@@ -13,41 +13,32 @@
   const contentTable = document.querySelector("#content-table");
   const fileInfoEl = document.querySelector(".js-details");
   const fileInfoDetailsEl = fileInfoEl.querySelector(".js-info-table");
-  const filePreviewEl = fileInfoEl.querySelector(".js-preview");
+  //const filePreviewEl = fileInfoEl.querySelector(".js-preview");
   const fileDownloadBtnEl = fileInfoEl.querySelector(".js-download");
   const fileInformationBtnEl = fileInfoEl.querySelector(".js-info");
 
+  //? later it will be used inside a couple of functions as global vars
   let activeFolder = "root";
   let activeFolderPath = "root";
 
-  //initial folder files preview
-  document.addEventListener("onContentLoaded", manageSelectedFolder("root"));
+  //? initial folder files preview
+  document.addEventListener(
+    "onContentLoaded",
+    showFilesOfSelectedFolder("root")
+  );
 
-  //? //////////////////////////////////////////////////////////////////////////filter input
+  //? ////////////////////////////////////////////////////////////////////////////////// filter input
+  searchInputEl.addEventListener("keyup", filterHandler);
 
-  searchInputEl.addEventListener("keyup", (evt) => {
-    const inputValue = evt.target.value;
-    const filesEls = contentTable.querySelectorAll(".file-list__row");
+  //? ////////////////////////////////////////////////////////////////////////////////// adding folder,file,upload managing
 
-    const newEls = [...filesEls].filter((el) => {
-      const row = el;
-      row.style.backgroundColor = "transparent";
-      contentTable.appendChild(row);
-      if (inputValue.trim()) {
-        const rowEl = el.querySelector(".name").innerText.toLowerCase();
-        return rowEl.includes(inputValue.toLowerCase());
-      }
-    });
-
-    [...newEls].forEach((el) => {
-      const newRowEl = el;
-      newRowEl.style.backgroundColor = "yellow";
-      return contentTable.prepend(newRowEl);
-    });
+  //1. on btn "+ Add" show options menu (where we can choose action we want to make)
+  addBtn.addEventListener("click", () => {
+    addBtn.classList.toggle("btn--add-active");
+    addMenu.classList.toggle("hide");
   });
 
-  ///////////////////////////////////////////////////////////////////////////////////
-
+  //2. add event listeners for btns (for hiding ui els)
   [...formActions].forEach((el) => {
     el.querySelector(".cancel--btn").addEventListener("click", (e) => {
       e.preventDefault();
@@ -58,22 +49,25 @@
     });
   });
 
-  addBtn.addEventListener("click", () => {
-    addBtn.classList.toggle("btn--add-active");
-    addMenu.classList.toggle("hide");
+  //3. add event listeners for overlay (for hiding ui els)
+  overlay.addEventListener("click", () => {
+    closeOperation();
   });
 
-  fsNavigation.addEventListener("click", (evt) => {
-    evt.preventDefault();
-    const chosenFolder = evt.target.dataset.folder;
-    const chosenFolderPath = evt.target.dataset.path;
-    activeFolder = chosenFolder;
-    activeFolderPath = chosenFolderPath;
+  addMenu.addEventListener("click", selectFolderActionHandler);
 
-    manageSelectedFolder(activeFolder, activeFolderPath);
-  });
+  //? ////////////////////////////////////////////////////////////////////////////////// adding folder,file,upload managing end
 
-  function manageSelectedFolder(folder, queryParams = null) {
+  fsNavigation.addEventListener("click", fsNavigationHandler);
+
+  //? ////////////////////////////////////////////////////////////////////////////////// fetching files of selected folder
+
+  function showFilesOfSelectedFolder(folder, queryParams = null) {
+    if (queryParams === null) {
+      queryParams = `${activeFolderPath}/${folder}`;
+    }
+    console.log("query", folder, queryParams);
+
     fetch(
       `http://localhost:3055/fs-manager/files/${folder}?folderPath=${queryParams}`
     )
@@ -81,22 +75,20 @@
         return response.text();
       })
       .then((data) => {
+        //1. add files of selected folder into DOM
         renderFiles(data);
       })
       .then(() => {
-        //add listeners to folder's files
+        //add listeners for files of selectedfolder (to show file info)
         fileManageHandler();
       })
       .catch((er) => console.log(er));
   }
 
-  function renderFiles(data) {
-    contentTable.innerHTML = "";
-    contentTable.innerHTML = data;
-  }
+  //? ////////////////////////////////////////////////////////////////////////////////// fetching files of selected folder end
 
   function fileManageHandler() {
-    const tableRows = contentTable.querySelectorAll("tr");
+    const tableRows = contentTable.querySelectorAll(".js-file");
     const folderEl = contentTable.querySelectorAll(".js-folder");
 
     filesSelectHandler(tableRows, folderEl);
@@ -104,38 +96,15 @@
 
   function filesSelectHandler(filesEl, folderEl) {
     [...folderEl].forEach((element) => {
-      console.log("hello");
-      element.addEventListener("click", (evt) => evt.preventDefault());
+      element.addEventListener("dblclick", selectFolderHandler);
     });
 
     [...filesEl].forEach((element) => {
-      element.addEventListener("click", (evt) => {
-        let selectedRow = evt.target.closest("TR");
-
-        const filePath = selectedRow.dataset.filePath;
-        const fileName = selectedRow.querySelector(".name").innerText;
-        const fileType = selectedRow.querySelector(".type").innerText;
-        const fileSize = selectedRow.querySelector(".size").innerText;
-        const fileModified = selectedRow.querySelector(".modified").innerText;
-        const fileCreated = selectedRow.querySelector(".created").innerText;
-
-        if (fileType === "folder") {
-          console.log(fileName);
-          manageSelectedFolder(fileName);
-        }
-
-        renderFileInfo(
-          //selectedRow,
-          fileName,
-          fileSize,
-          fileModified,
-          fileCreated,
-          filePath
-        );
-      });
+      element.addEventListener("click", selectedFileHandler);
     });
   }
 
+  //filePath intended to be used for download link
   function renderFileInfo(
     fileName,
     fileSize,
@@ -189,7 +158,75 @@
     fileInformationBtnEl.classList.add("details__btn--active");
   });
 
-  addMenu.addEventListener("click", (evt) => {
+  function setCurFolder() {
+    [...activeFolderInputs].forEach((el) => {
+      el.value = activeFolderPath;
+    });
+  }
+
+  function choseForm(form) {
+    addBtn.classList.remove("btn--add-active");
+    addMenu.classList.add("hide");
+    forms.classList.remove("hide");
+    overlay.classList.remove("hide");
+    setCurFolder();
+
+    form.classList.remove("hide");
+    form.classList.add("show");
+  }
+
+  //! ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VIEW
+
+  function renderFiles(data) {
+    contentTable.innerHTML = "";
+
+    //! 214 is length of thead el (214 is a magic number :))
+    if (data.length > 214) {
+      contentTable.insertAdjacentHTML("afterbegin", data);
+    } else {
+      contentTable.insertAdjacentHTML(
+        "afterbegin",
+        "<p>There is no files in folder yet!</p>"
+      );
+    }
+  }
+
+  //! ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Handlers
+
+  function fsNavigationHandler(evt) {
+    // set our global active folder and its path
+    activeFolder = evt.target.dataset.folder;
+    activeFolderPath = evt.target.dataset.path;
+
+    showFilesOfSelectedFolder(activeFolder, activeFolderPath);
+  }
+
+  function filterHandler(evt) {
+    const filterText = evt.target.value;
+    const filesEls = contentTable.querySelectorAll(".file-list__row");
+
+    const newEls = [...filesEls].filter((el) => {
+      //1. make all table rows bg transparent and put it into DOM
+      const row = el;
+      row.style.backgroundColor = "transparent";
+      contentTable.appendChild(row);
+
+      //2. filter files by filter text
+      if (filterText.trim()) {
+        const fileName = el.querySelector(".name").innerText.toLowerCase();
+        return fileName.includes(filterText.toLowerCase());
+      }
+    });
+
+    //3. Styling filtered and putting it back into DOM (to the top of other files)
+    [...newEls].forEach((el) => {
+      const newRowEl = el;
+      newRowEl.style.backgroundColor = "yellow";
+      return contentTable.prepend(newRowEl);
+    });
+  }
+
+  function selectFolderActionHandler(evt) {
     const action = evt.target.dataset.action;
 
     switch (action) {
@@ -206,27 +243,33 @@
       default:
         closeOperation();
     }
-  });
-
-  overlay.addEventListener("click", () => {
-    closeOperation();
-  });
-
-  function setCurFolder() {
-    [...activeFolderInputs].forEach((el) => {
-      el.value = activeFolderPath;
-    });
   }
 
-  function choseForm(form) {
-    addBtn.classList.remove("btn--add-active");
-    addMenu.classList.add("hide");
-    forms.classList.remove("hide");
-    overlay.classList.remove("hide");
-    setCurFolder();
+  function selectFolderHandler(evt) {
+    evt.preventDefault();
 
-    form.classList.remove("hide");
-    form.classList.add("show");
+    const folderSelected = evt.target.closest("TR").dataset.folder;
+
+    activeFolder = folderSelected;
+
+    if (activeFolderPath === undefined || activeFolderPath === "root") {
+      activeFolderPath = "";
+    }
+    showFilesOfSelectedFolder(folderSelected);
+    activeFolderPath = `${activeFolderPath}/${activeFolder}`;
+  }
+
+  function selectedFileHandler(evt) {
+    let selectedRow = evt.target.closest("TR");
+
+    const filePath = selectedRow.dataset.filePath;
+    const fileName = selectedRow.querySelector(".name").innerText;
+    const fileType = selectedRow.querySelector(".type").innerText;
+    const fileSize = selectedRow.querySelector(".size").innerText;
+    const fileModified = selectedRow.querySelector(".modified").innerText;
+    const fileCreated = selectedRow.querySelector(".created").innerText;
+
+    renderFileInfo(fileName, fileSize, fileModified, fileCreated, filePath);
   }
 
   function closeOperation() {

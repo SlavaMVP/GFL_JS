@@ -293,8 +293,14 @@ a {
 .file-img--html,
 .file-img--pdf,
 .file-img--docx,
+.file-img--doc,
+.file-img--txt,
 .file-img--jpg,
+.file-img--jpeg,
+.file-img--png,
+.file-img--svg,
 .file-img--mp3,
+.file-img--midi,
 .file-img--wav,
 .file-img--folder {
   display: inline-block;
@@ -313,15 +319,21 @@ a {
   background-image: url("../img/pdf.svg");
 }
 
-.file-img--docx {
+.file-img--docx,
+.file-img--doc,
+.file-img--txt {
   background-image: url("../img/doc.svg");
 }
 
-.file-img--jpg {
+.file-img--jpg,
+.file-img--jpeg,
+.file-img--svg,
+.file-img--png {
   background-image: url("../img/jpg.svg");
 }
 
 .file-img--mp3,
+.file-img--midi,
 .file-img--wav {
   background-image: url("../img/wav.svg");
 }
@@ -507,3 +519,9 @@ a {
   justify-self: flex-end;
 }
 /*-------------------------------------------------SERVER ERROR PAGE*/
+
+/*----------------------------------------------------fix some stuff*/
+.js-folder,
+.fs__folder {
+  user-select: none;
+}

@@ -30,18 +30,18 @@ exports.showFs = (req, res, next) => {
     return result;
   }
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   let curF = [];
   let fPath = "";
+
   function renderFolders(obj) {
     let fsNavTemplate = "<ul>";
 
     Object.keys(obj).forEach((key) => {
-      console.log(fPath, curF);
       if (JSON.stringify(obj[key]) !== "{}") {
         if (curF[0] !== fPath.split("/")[0]) {
           curF.push(key);
         } else {
-          console.log("here");
           curF[curF.length] = key;
         }
         fPath = curF.join("/");
@@ -180,8 +180,11 @@ exports.showFilesOfFolder = (req, res, next) => {
         <td class="created">Created</td>
     </thead>`;
     Object.keys(obj).forEach((key) => {
+      ////////////////////////////////////////////////////////////////////////////////////////
       if (obj[key].basename !== key) {
-        a += ` <tr data-file-path="${obj[key].dir}" class="file-list__row"> 
+        a += ` <tr data-file-path="${
+          obj[key].dir
+        }" class="file-list__row js-file"> 
         <td class="name"><span class="file-img--${
           obj[key].basename
         }"></span> ${key}</td>
@@ -195,9 +198,11 @@ exports.showFilesOfFolder = (req, res, next) => {
         ).toLocaleDateString()}</td>
     </tr>`;
       } else {
-        a += ` <tr data-path="${obj[key].dir}" class="file-list__row">
+        obj[key].dir;
+        a += ` <tr data-path="${key}" data-folder="${key}" class="file-list__row js-folder">
        
-        <td class="name"><span class="file-img--folder"></span> <a href="http://localhost:3055/fs-manager/files/${key}?folderPath=${folderPath}/${key}" class="js-folder">${key}  </a></td>
+        <td class="name"><span class="file-img--folder"></span> 
+       ${key} </td>
         <td class="type">folder</td>
         <td class="size"></td>
         <td class="modified">${new Date(
