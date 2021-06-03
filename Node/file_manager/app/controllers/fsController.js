@@ -4,8 +4,8 @@ const fs = require("fs");
 const FsModel = require("../models/fsModel");
 
 const ROOT_FOLDER = require("../utils/path");
-const PUBLIC_FOLDER = path.join(ROOT_FOLDER, "public");
-const USER_FOLDER = path.join(ROOT_FOLDER, "data", "user_id1");
+const PUBLIC_FOLDER = path.join(ROOT_FOLDER, "data/user_f");
+//const USER_FOLDER = path.join(ROOT_FOLDER, "data", "user_id1");
 
 const userFolderData = new FsModel();
 
@@ -182,9 +182,7 @@ exports.showFilesOfFolder = (req, res, next) => {
     Object.keys(obj).forEach((key) => {
       ////////////////////////////////////////////////////////////////////////////////////////
       if (obj[key].basename !== key) {
-        a += ` <tr data-file-path="${
-          obj[key].dir
-        }" class="file-list__row js-file"> 
+        a += ` <tr data-file="${key}" class="file-list__row js-file"> 
         <td class="name"><span class="file-img--${
           obj[key].basename
         }"></span> ${key}</td>
@@ -233,9 +231,10 @@ exports.showFileInfo = (req, res, next) => {
 };
 
 exports.downloadFile = (req, res, next) => {
-  const { filepath } = req.query;
+  const { filePath } = req.query;
+  const USER_FOLDER = path.join(ROOT_FOLDER, res.userFolder);
 
-  console.log(filepath);
+  //console.log(filepath);
 
-  res.download(path.join(PUBLIC_FOLDER, "doc.svg"));
+  res.download(path.join(PUBLIC_FOLDER, `${filePath}`));
 };

@@ -20,6 +20,7 @@
   //? later it will be used inside a couple of functions as global vars
   let activeFolder = "root";
   let activeFolderPath = "root";
+  let fileDownloadPath = "";
 
   //? initial folder files preview
   document.addEventListener(
@@ -66,7 +67,6 @@
     if (queryParams === null) {
       queryParams = `${activeFolderPath}/${folder}`;
     }
-    console.log("query", folder, queryParams);
 
     fetch(
       `http://localhost:3055/fs-manager/files/${folder}?folderPath=${queryParams}`
@@ -87,24 +87,24 @@
 
   //? ////////////////////////////////////////////////////////////////////////////////// fetching files of selected folder end
 
-  function fileManageHandler() {
-    const tableRows = contentTable.querySelectorAll(".js-file");
-    const folderEl = contentTable.querySelectorAll(".js-folder");
+  fileDownloadBtnEl.addEventListener("click", fileDownloadHandler);
 
-    filesSelectHandler(tableRows, folderEl);
+  //! ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VIEW
+
+  function renderFiles(data) {
+    contentTable.innerHTML = "";
+
+    //! 214 is length of thead el (214 is a magic number :))
+    if (data.length > 214) {
+      contentTable.insertAdjacentHTML("afterbegin", data);
+    } else {
+      contentTable.insertAdjacentHTML(
+        "afterbegin",
+        "<p>There is no files in folder yet!</p>"
+      );
+    }
   }
 
-  function filesSelectHandler(filesEl, folderEl) {
-    [...folderEl].forEach((element) => {
-      element.addEventListener("dblclick", selectFolderHandler);
-    });
-
-    [...filesEl].forEach((element) => {
-      element.addEventListener("click", selectedFileHandler);
-    });
-  }
-
-  //filePath intended to be used for download link
   function renderFileInfo(
     fileName,
     fileSize,
@@ -115,7 +115,7 @@
     fileInfoDetailsEl.innerText = "";
 
     let template = `
-    <img src="../doc.svg"  class="file__preview js-preview" alt="preview"></img>
+    <img src="${filePath}"  class="file__preview js-preview" alt="preview"></img>
     <tr>
     <td class="row_name">Name</td>
     <td class="row_data">${fileName}</td>
@@ -132,63 +132,8 @@
     <td class="row_name">Created</td>
     <td class="row_data">${fileCreated}</td>
 </tr>`;
-    //TODO /////////////////////////////////////////////////////////
 
     fileInfoDetailsEl.insertAdjacentHTML("afterbegin", template);
-  }
-
-  fileDownloadBtnEl.addEventListener("click", () => {
-    fileDownloadBtnEl.classList.add("details__btn--active");
-    fileInformationBtnEl.classList.remove("details__btn--active");
-
-    console.log("download...");
-    fetch(`http://localhost:3055/fs-manager/download`)
-      .then((response) => {
-        return response.blob();
-      })
-      .then((blob) => {
-        var file = window.URL.createObjectURL(blob);
-        window.location.assign(file); //! ////////////////////////////////////////////////////////////////////////////////////download
-      })
-      .catch((err) => console.log(err));
-  });
-
-  fileInfoDetailsEl.addEventListener("click", () => {
-    fileDownloadBtnEl.classList.remove("details__btn--active");
-    fileInformationBtnEl.classList.add("details__btn--active");
-  });
-
-  function setCurFolder() {
-    [...activeFolderInputs].forEach((el) => {
-      el.value = activeFolderPath;
-    });
-  }
-
-  function choseForm(form) {
-    addBtn.classList.remove("btn--add-active");
-    addMenu.classList.add("hide");
-    forms.classList.remove("hide");
-    overlay.classList.remove("hide");
-    setCurFolder();
-
-    form.classList.remove("hide");
-    form.classList.add("show");
-  }
-
-  //! ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VIEW
-
-  function renderFiles(data) {
-    contentTable.innerHTML = "";
-
-    //! 214 is length of thead el (214 is a magic number :))
-    if (data.length > 214) {
-      contentTable.insertAdjacentHTML("afterbegin", data);
-    } else {
-      contentTable.insertAdjacentHTML(
-        "afterbegin",
-        "<p>There is no files in folder yet!</p>"
-      );
-    }
   }
 
   //! ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////Handlers
@@ -245,6 +190,23 @@
     }
   }
 
+  function fileManageHandler() {
+    const tableRows = contentTable.querySelectorAll(".js-file");
+    const folderEl = contentTable.querySelectorAll(".js-folder");
+
+    filesSelectHandler(tableRows, folderEl);
+  }
+
+  function filesSelectHandler(filesEl, folderEl) {
+    [...folderEl].forEach((element) => {
+      element.addEventListener("dblclick", selectFolderHandler);
+    });
+
+    [...filesEl].forEach((element) => {
+      element.addEventListener("click", selectedFileHandler);
+    });
+  }
+
   function selectFolderHandler(evt) {
     evt.preventDefault();
 
@@ -262,7 +224,16 @@
   function selectedFileHandler(evt) {
     let selectedRow = evt.target.closest("TR");
 
-    const filePath = selectedRow.dataset.filePath;
+    const selectedFile = selectedRow.dataset.file;
+    let filePath;
+    if (activeFolderPath === "root") {
+      filePath = `${selectedFile}`;
+    } else {
+      filePath = `${activeFolderPath}/${selectedFile}`;
+    }
+
+    fileDownloadPath = filePath;
+
     const fileName = selectedRow.querySelector(".name").innerText;
     const fileType = selectedRow.querySelector(".type").innerText;
     const fileSize = selectedRow.querySelector(".size").innerText;
@@ -270,6 +241,33 @@
     const fileCreated = selectedRow.querySelector(".created").innerText;
 
     renderFileInfo(fileName, fileSize, fileModified, fileCreated, filePath);
+  }
+
+  function fileDownloadHandler() {
+    fileDownloadBtnEl.classList.add("details__btn--active");
+    fileInformationBtnEl.classList.remove("details__btn--active");
+
+    fetch(
+      `http://localhost:3055/fs-manager/download?filePath=${fileDownloadPath}`
+    )
+      .then((response) => {
+        return response.blob();
+      })
+      .then((blob) => {
+        // var file = window.URL.createObjectURL(blob);
+        //window.location.assign(file);
+
+        let a = document.createElement("a");
+        a.href = `http://localhost:3055/fs-manager/download?filePath=${fileDownloadPath}`;
+        a.id = "download_link";
+        document.body.appendChild(a);
+      })
+      .then(() => {
+        const downloadLink = document.querySelector("#download_link");
+        downloadLink.click();
+        downloadLink.remove();
+      })
+      .catch((err) => console.log(err));
   }
 
   function closeOperation() {
@@ -281,5 +279,22 @@
     uploadFileForm.classList.remove("show");
     overlay.classList.add("hide");
     forms.classList.add("hide");
+  }
+
+  function setCurFolder() {
+    [...activeFolderInputs].forEach((el) => {
+      el.value = activeFolderPath;
+    });
+  }
+
+  function choseForm(form) {
+    addBtn.classList.remove("btn--add-active");
+    addMenu.classList.add("hide");
+    forms.classList.remove("hide");
+    overlay.classList.remove("hide");
+    setCurFolder();
+
+    form.classList.remove("hide");
+    form.classList.add("show");
   }
 }

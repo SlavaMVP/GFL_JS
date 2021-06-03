@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const PUB_DIR = path.join(__dirname, "public");
-const USER_DIR = path.join(__dirname, "data"); //! хотел розшаить чтобы доставать ссылки на картинки
+const USERS_DIR = path.join(__dirname, "data"); //! хотел розшаить чтобы доставать ссылки на картинки
 
 //const VIEWS_DIR = path.join(PUB_DIR, "views");
 const urlEncodedParser = bodyParser.urlencoded({ extended: false });
@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static(PUB_DIR));
-app.use(express.static(USER_DIR)); //"/userfiles",
+app.use(express.static(USERS_DIR)); //"/userfiles",
 
 app.use(UserController.isValidUser);
 
