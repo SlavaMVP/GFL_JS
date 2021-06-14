@@ -3,6 +3,7 @@ const Cart = require("../models/cart");
 exports.addItem = (req, res, next) => {
   const { userId, prodId, opId, count } = req.body;
   let quantity;
+
   Cart.findItem(userId, prodId, opId).then(([cartItem]) => {
     if (cartItem.length !== 0) {
       quantity = cartItem[0].count + 1;
@@ -25,6 +26,7 @@ exports.addItem = (req, res, next) => {
     } else {
       //add product if there is no such in cart
       quantity = 1;
+
       const cart = new Cart({
         userId,
         prodId,
@@ -49,6 +51,7 @@ exports.addItem = (req, res, next) => {
 
 exports.getUserCart = (req, res, next) => {
   const { id } = req.query;
+
   Cart.getCart(id)
     .then((cart) => {
       res.status(200).json({
@@ -66,6 +69,7 @@ exports.getUserCart = (req, res, next) => {
 
 exports.clearCart = (req, res, next) => {
   const { userId } = req.body;
+
   Cart.clearCart(userId)
     .then(() => {
       res.status(204).json({

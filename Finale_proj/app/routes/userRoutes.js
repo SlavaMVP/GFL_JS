@@ -5,8 +5,9 @@ const User = require("../models/user");
 const userController = require("../controllers/userController");
 const cartController = require("../controllers/cartController");
 const orderController = require("../controllers/orderController");
-//const isAuth = require("../middlewares/is-auth");
+const isAuth = require("../middlewares/is-auth"); //can be used as protect middleware
 
+//used express-validate for register and login inputs
 router.put(
   "/signup",
   [
@@ -52,13 +53,15 @@ router.post(
 );
 
 router.get("/user", userController.getUserInfo);
-router.get("/user/orders", orderController.getUserOrders);
-router.get("/user/order", orderController.getUserOrder);
+router.get("/orders", orderController.getUserOrders);
+router.get("/order", orderController.getUserOrder);
 router.post("/order", orderController.createOrder);
-//router.post("/usert/orderDetails", orderController.createOrderDetails);
+
+//should be implemented in as Promise.all in front-end  or in cicle inside orderController ??
+//router.post("/usert/orderDetails", orderController.createOrderDetails); //not implemented
 
 router.get("/user/cart", cartController.getUserCart);
 router.post("/cart", cartController.addItem);
-//router.delete("/cart", cartController.clearCart);
+//router.delete("/cart", cartController.clearCart); //implemented inside orderController
 
 module.exports = router;

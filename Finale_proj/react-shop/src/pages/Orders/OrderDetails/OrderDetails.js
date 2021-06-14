@@ -19,7 +19,7 @@ function OrderDetails(props) {
   }, [props.match.params.id]);
 
   function fetchOrderDetails(orderId) {
-    fetch(`http://localhost:8085/t-shop/user/order?id=${orderId}`)
+    fetch(`http://localhost:8085/t-shop/order?id=${orderId}`)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error("Failed to fetch");

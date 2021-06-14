@@ -81,7 +81,7 @@ function Cart(props) {
           </Link>
         </>
       ) : (
-        <p>Your cart is empty</p>
+        <p className="cart__info">Your cart is empty</p>
       )}
     </div>
   );

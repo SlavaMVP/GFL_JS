@@ -1,6 +1,6 @@
-const Order = require("../models/order");
-const OrderDetails = require("../models/orderDetail");
-const Cart = require("../models/cart");
+const Order = require("../models/Order");
+const OrderDetails = require("../models/OrderDetail");
+const Cart = require("../models/Cart");
 
 exports.getUserOrders = (req, res, next) => {
   const { id } = req.query;

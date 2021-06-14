@@ -43,3 +43,7 @@
 .btn--order:focus {
   background-color: rgb(248, 63, 63);
 }
+
+.cart__info {
+  font-size: 1.2rem;
+}

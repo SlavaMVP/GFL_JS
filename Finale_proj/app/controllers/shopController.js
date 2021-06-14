@@ -1,4 +1,4 @@
-const Shop = require("../models/shop");
+const Shop = require("../models/Shop");
 
 exports.getAllProducts = (req, res, next) => {
   Shop.getProducts()
@@ -18,6 +18,7 @@ exports.getAllProducts = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const { id } = req.params;
+
   Shop.getProduct(id)
     .then(([product]) => {
       res.status(200).json({
@@ -51,7 +52,7 @@ exports.getProductTypes = (req, res, next) => {
 
 exports.getProductsOfType = (req, res, next) => {
   const { type } = req.query;
-  //console.log(req);
+
   Shop.getProductsOfType(type)
     .then(([products]) => {
       res.status(200).json({

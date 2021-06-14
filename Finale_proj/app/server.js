@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 8080;
 
 const app = express();
 
+//implemented as public api
 const corsOptions = {
   origin: "*",
 };
@@ -32,14 +33,6 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message, data });
 });
 
-/*
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-});
-*/
-
 app.listen(PORT, () => {
   console.log("Server is running");
-
-  //db.query("select * from colors").then(([res]) => console.log(res));
 });

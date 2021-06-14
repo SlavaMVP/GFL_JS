@@ -13,7 +13,7 @@ export default function UserPage(props) {
   const refUserId = useRef(userId);
 
   useEffect(() => {
-    fetch(`http://localhost:8085/t-shop/user/orders?id=${userId}`)
+    fetch(`http://localhost:8085/t-shop/orders?id=${userId}`)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error("Failed to fetch");

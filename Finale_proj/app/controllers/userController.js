@@ -2,18 +2,21 @@ const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/user");
+const User = require("../models/User");
 
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed.");
     error.statusCode = 422;
     error.data = errors.array();
     throw error;
   }
+
   const { name, surname, email, password, country, city, address } = req.body;
   bcrypt
+
     .hash(password, 12)
     .then((hPassword) => {
       const user = new User({
@@ -42,6 +45,7 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed.");
     error.statusCode = 422;
@@ -54,7 +58,6 @@ exports.login = (req, res, next) => {
   User.getUser(email)
     .then(([user]) => {
       userData = user[0];
-      //console.log("user", userData);
 
       return bcrypt.compare(password, userData.password);
     })
@@ -75,7 +78,7 @@ exports.login = (req, res, next) => {
       res.status(201).json({
         token: token,
         userId: userData.client_id,
-        email: userData.email, //email
+        email: userData.email,
       });
     })
 
@@ -89,6 +92,7 @@ exports.login = (req, res, next) => {
 
 exports.getUserInfo = (req, res, next) => {
   const { email } = req.query;
+
   User.getUser(email)
     .then(([data]) => {
       res.status(200).json({

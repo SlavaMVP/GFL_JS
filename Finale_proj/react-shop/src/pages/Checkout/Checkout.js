@@ -52,16 +52,14 @@ function Checkout(props) {
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
+        //console.log(resData);
       })
       .catch((err) => {
         console.log("err", err);
       });
 
-    props.history.push("/");
+    props.history.push("/user");
   }
-
-  console.log(cart);
 
   return (
     <>
@@ -127,7 +125,7 @@ function Checkout(props) {
               name="shipping"
               disabled
             ></input>
-            <label htmlFor="mastercard">Nova Poshta +44 Uah</label>
+            <label htmlFor="mastercard">Nova Poshta +44.00 Uah</label>
           </div>
 
           <div className="form-group">
@@ -139,7 +137,7 @@ function Checkout(props) {
               name="shipping"
               disabled
             ></input>
-            <label htmlFor="privatbank">UkrPoshta +60 UaH</label>
+            <label htmlFor="privatbank">UkrPoshta +60.00 UaH</label>
           </div>
         </form>
 
