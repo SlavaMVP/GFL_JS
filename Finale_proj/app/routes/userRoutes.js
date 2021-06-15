@@ -60,8 +60,9 @@ router.post("/order", orderController.createOrder);
 //should be implemented in as Promise.all in front-end  or in cicle inside orderController ??
 //router.post("/usert/orderDetails", orderController.createOrderDetails); //not implemented
 
-router.get("/user/cart", cartController.getUserCart);
+router.get("/cart", cartController.getUserCart);
 router.post("/cart", cartController.addItem);
+router.delete("/cart", cartController.deleteItem);
 //router.delete("/cart", cartController.clearCart); //implemented inside orderController
 
 module.exports = router;

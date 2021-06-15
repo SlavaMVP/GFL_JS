@@ -10,6 +10,7 @@ module.exports = class Cart {
   }
 
   save() {
+  
     return db.execute(
       `
         INSERT INTO carts (id, client_id, product_id, option_id, count)
@@ -22,17 +23,15 @@ module.exports = class Cart {
     return db.query(`Delete from carts where client_id = ${userId}`);
   }
 
-  //todo delete item from cart (not implemented for 'x' btn)
   static deleteItem(userId, prodId, opId) {
+   
     return db.query(`
     Delete from carts 
     where client_id = ${userId} and product_id = ${prodId} and option_id = ${opId}`);
   }
 
-  //todo delete, or add one item from cart ( can be used for + and - btns)
-  //count calculate in front end and insert in existing
   static editeItemCount(userId, prodId, opId, count) {
-    console.log(userId, prodId, opId, count);
+   
     return db.query(
       `update carts set count = ${count} 
       where client_id = ${userId} and product_id = ${prodId} and option_id = ${opId}
@@ -41,6 +40,7 @@ module.exports = class Cart {
   }
 
   static findItem(userId, prodId, opId) {
+  
     return db.query(`
 select * from carts where client_id = ${userId} and product_id = ${prodId} and option_id = ${opId}
 `);

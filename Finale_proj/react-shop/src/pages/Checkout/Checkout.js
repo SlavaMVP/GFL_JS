@@ -11,7 +11,7 @@ function Checkout(props) {
   const refUserId = useRef(userId);
 
   useEffect(() => {
-    fetch(`http://localhost:8085/t-shop/user/cart?id=${userId}`)
+    fetch(`http://localhost:8085/t-shop/cart?id=${userId}`)
       .then((res) => {
         if (res.status !== 200) {
           throw new Error("Failed to fetch");

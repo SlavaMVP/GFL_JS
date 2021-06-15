@@ -60,7 +60,7 @@ exports.createOrder = (req, res, next) => {
       return ord[0].insertId;
     })
     .then((orderId) => {
-      console.log(orderId);
+     // console.log(orderId);
       //todo save order details
     })
     .then(() => {
